@@ -26,7 +26,16 @@ logger = logging.getLogger(__name__)
 def allPlaces(bot, update):
     update.message.reply_text('Places')
     
-
+def build_menu(buttons,
+               n_cols,
+               header_buttons=None,
+               footer_buttons=None):
+    menu = [buttons[i:i + n_cols] for i in range(0, len(buttons), n_cols)]
+    if header_buttons:
+        menu.insert(0, header_buttons)
+    if footer_buttons:
+        menu.append(footer_buttons)
+    return menu
 
 
 
@@ -47,7 +56,7 @@ def showPlace(bot,update):
         button_list = [
         telegram.InlineKeyboardButton("❤️", callback_data="1"),
         telegram.InlineKeyboardButton("Местоположение", callback_data="2")]
-        reply_markup = telegram.InlineKeyboardMarkup(util.build_menu(button_list, n_cols=1))
+        reply_markup = telegram.InlineKeyboardMarkup(build_menu(button_list, n_cols=1))
         # bot.send_photo(chat_id=update.message.chat_id, photo='http://phink.team/hotline/images/product/1/HQ/кроссовки-sf-air-force-1-mid-OnTrJDlm.png')
         bot.send_message(chat_id=update.message.chat_id,text='*'+p['name']+'*\n'+p['desc']+'\n \n'+p['address'],parse_mode=telegram.ParseMode.MARKDOWN,reply_markup=reply_markup)
     # update.message.reply_text(text='*Fenster Coffee*\ntest',parse_mode=telegram.ParseMode.MARKDOWN)
