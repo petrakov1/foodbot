@@ -43,7 +43,8 @@ def build_menu(buttons,
 # update. Error handlers also receive the raised TelegramError object in error.
 def start(bot, update):
     """Send a message when the command /start is issued."""
-    update.message.reply_text('Welcome')
+    update.message.reply_text('Оцените места, что бы мы вас лучше узнали')
+    dataStorage.createUser(update.message.chat_id)
 
 def showPlace(bot,update):
     print(dataStorage.getAllPlaces())
@@ -54,8 +55,8 @@ def showPlace(bot,update):
     for place in places:
         p = dataStorage.getPlace(place[0])
         button_list = [
-        telegram.InlineKeyboardButton("❤️", callback_data="1"),
-        telegram.InlineKeyboardButton("Местоположение", callback_data="2")]
+        telegram.InlineKeyboardButton("❤️", callback_data="like?"+place[id]),
+        telegram.InlineKeyboardButton("Местоположение", callback_data="location?"+place[id])]
         reply_markup = telegram.InlineKeyboardMarkup(build_menu(button_list, n_cols=1))
         # bot.send_photo(chat_id=update.message.chat_id, photo='http://phink.team/hotline/images/product/1/HQ/кроссовки-sf-air-force-1-mid-OnTrJDlm.png')
         bot.send_message(chat_id=update.message.chat_id,text='*'+p['name']+'*\n'+p['desc']+'\n \n'+p['address'],parse_mode=telegram.ParseMode.MARKDOWN,reply_markup=reply_markup)
@@ -67,9 +68,8 @@ def help(bot, update):
     update.message.reply_text('Help!')
 
 
-def echo(bot, update):
-    """Echo the user message."""
-    update.message.reply_text(update.message.text)
+def textHandlers(bot, update):
+    update.message.reply_text(update.callback_query)
 
 
 def error(bot, update, error):
@@ -91,6 +91,8 @@ def main():
 
 #     # on noncommand i.e message - echo the message on Telegram
     dp.add_handler(MessageHandler(Filters.text, echo))
+    dp.add_handler(CallbackQueryHandler(textHandlers))
+
 
 #     # log all errors
     dp.add_error_handler(error)
