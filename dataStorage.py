@@ -7,7 +7,7 @@ url = 'redis://h:pefdc000ffe64e9ee1d5b61c52070f9a98839b0413371070bf7ff0fab173c72
 r = redis.StrictRedis.from_url(url)
 
 def createPlaces():
-    places = {places:[]}
+    places = {"places":[]}
     r.set("places",places)
 
 def getAllPlaces():
