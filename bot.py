@@ -3,6 +3,7 @@ import telegram
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import logging
 import redis
+import dataStorage
 
 TOKEN = "515081396:AAHw-n2i0iigt9iAPVhVgL5-p9ibiD3wd-0"
 
@@ -30,6 +31,9 @@ def start(bot, update):
     """Send a message when the command /start is issued."""
     update.message.reply_text('Welcome')
 
+def showPlace(bot,update):
+    update.message.reply_text('<b>Fenster Coffee</b>\ntest')
+   
 
 def help(bot, update):
     """Send a message when the command /help is issued."""
@@ -56,7 +60,7 @@ def main():
 #     # on different commands - answer in Telegram
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("help", help))
-    dp.add_handler(CommandHandler("allplaces", allPlaces))
+    dp.add_handler(CommandHandler("place", showPlace))
 
 #     # on noncommand i.e message - echo the message on Telegram
     dp.add_handler(MessageHandler(Filters.text, echo))
