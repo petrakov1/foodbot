@@ -37,7 +37,7 @@ def showPlace(bot,update):
     places = dataAnal.getTopPlaces(json_data,user)
     # print(places)
     for place in places:
-        p = dataStorage.getPlace(place[0]))
+        p = dataStorage.getPlace(place[0])
         # bot.send_photo(chat_id=update.message.chat_id, photo='http://phink.team/hotline/images/product/1/HQ/кроссовки-sf-air-force-1-mid-OnTrJDlm.png')
         bot.send_message(chat_id=update.message.chat_id,text='*'+p['name']+'*\n'+p['desc'],parse_mode=telegram.ParseMode.MARKDOWN)
     # update.message.reply_text(text='*Fenster Coffee*\ntest',parse_mode=telegram.ParseMode.MARKDOWN)
