@@ -65,6 +65,8 @@ def main():
 
 # if __name__ == '__main__':
 #     main()
+def webhook(update):
+    dispatcher.process_update(update)
 
 updater.start_webhook(listen="0.0.0.0",
                       port=PORT,
