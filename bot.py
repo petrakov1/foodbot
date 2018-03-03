@@ -32,6 +32,7 @@ def start(bot, update):
     update.message.reply_text('Welcome')
 
 def showPlace(bot,update):
+    bot.send_photo(chat_id=update.message.chat_id, photo='http://phink.team/hotline/images/product/1/HQ/кроссовки-sf-air-force-1-mid-OnTrJDlm.png')
     bot.send_message(chat_id=update.message.chat_id,text='*Fenster Coffee*\ntest',parse_mode=telegram.ParseMode.MARKDOWN)
     # update.message.reply_text(text='*Fenster Coffee*\ntest',parse_mode=telegram.ParseMode.MARKDOWN)
    
