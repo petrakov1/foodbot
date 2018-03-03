@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import _json
 
 def valueByTag(place,arrPerson):
@@ -52,9 +55,11 @@ def getTopPlaces (json_Plase, json_Person):
     sortByValue(arrPlaces)
     #print ("After sort")
     #print (arrPlaces)
-    for i in range(1, arrPlaces.__len__()):
-        arrPlaces[i][1] = arrPlaces[i][1] / float(arrPlaces[0][1])
-    arrPlaces[0][1] = 1
+    if (arrPlaces[0][1] != 0):
+        for i in range(1, arrPlaces.__len__()):
+            arrPlaces[i][1] = arrPlaces[i][1] / float(arrPlaces[0][1])
+        arrPlaces[0][1] = 1
+
     #print ("After 0-1")
     #print (arrPlaces)
 
