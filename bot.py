@@ -2,6 +2,7 @@ import os
 import telegram
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import logging
+import redis
 
 TOKEN = "515081396:AAHw-n2i0iigt9iAPVhVgL5-p9ibiD3wd-0"
 
@@ -15,11 +16,18 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 
 
+
+def allPlaces(bot, update):
+
+
+
+
+
 # Define a few command handlers. These usually take the two arguments bot and
 # update. Error handlers also receive the raised TelegramError object in error.
 def start(bot, update):
     """Send a message when the command /start is issued."""
-    update.message.reply_text('Hi!')
+    update.message.reply_text('Welcome')
 
 
 def help(bot, update):
@@ -38,7 +46,6 @@ def error(bot, update, error):
 
 
 def main():
-#     """Start the bot."""
 #     # Create the EventHandler and pass it your bot's token.
     updater = Updater(TOKEN)
 
@@ -48,6 +55,7 @@ def main():
 #     # on different commands - answer in Telegram
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("help", help))
+    dp.add_handler(CommandHandler("allplaces", allPlaces))
 
 #     # on noncommand i.e message - echo the message on Telegram
     dp.add_handler(MessageHandler(Filters.text, echo))
