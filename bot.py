@@ -45,9 +45,9 @@ def showPlace(bot,update):
     for place in places:
         p = dataStorage.getPlace(place[0])
         button_list = [
-        InlineKeyboardButton("❤️", callback_data="1"),
-        InlineKeyboardButton("Местоположение", callback_data="2")]
-        reply_markup = InlineKeyboardMarkup(util.build_menu(button_list, n_cols=1))
+        telegram.InlineKeyboardButton("❤️", callback_data="1"),
+        telegram.InlineKeyboardButton("Местоположение", callback_data="2")]
+        reply_markup = telegram.InlineKeyboardMarkup(util.build_menu(button_list, n_cols=1))
         # bot.send_photo(chat_id=update.message.chat_id, photo='http://phink.team/hotline/images/product/1/HQ/кроссовки-sf-air-force-1-mid-OnTrJDlm.png')
         bot.send_message(chat_id=update.message.chat_id,text='*'+p['name']+'*\n'+p['desc']+'\n \n'+p['address'],parse_mode=telegram.ParseMode.MARKDOWN,reply_markup=reply_markup)
     # update.message.reply_text(text='*Fenster Coffee*\ntest',parse_mode=telegram.ParseMode.MARKDOWN)
