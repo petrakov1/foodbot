@@ -34,6 +34,7 @@ def start(bot, update):
     update.message.reply_text('Welcome')
 
 def showPlace(bot,update):
+    print(dataStorage.getAllPlaces())
     json_data = json.loads(dataStorage.getAllPlaces())
     user = json.loads(dataStorage.getUser(1))
     places = dataAnal.getTopPlaces(json_data,user)
