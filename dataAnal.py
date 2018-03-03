@@ -83,7 +83,7 @@ def getTopPlaces (json):
     print (arrValueOfPrices)
 
     for i in range(0, arrValueOfPrices.__len__()):
-        arrValueOfPrices[i][1] = (arrValueOfPrices[i][1] - personPrise) / 2.0
+        arrValueOfPrices[i][1] = (personPrise - arrValueOfPrices[i][1]) / 2.0
 
     sortByValue(arrValueOfPrices)
     print ("Before connection")
@@ -103,4 +103,7 @@ def getTopPlaces (json):
 #json = [{"name": "test1", "tags": {"burger": 1, "pizza": 2}, "price": 1, "location": "", "id": 1, "desc": "@"},
 #                      {"name": "test2", "tags": {"pizza": 1}, "price": 2, "location": "", "id": 2, "desc": "@"},
 #            {"name": "v", "tags": {"pasta": 2, "burger": 1, "pizza": 1}, "price": 3, "location": {}, "id": 6, "desc": ""}]
+
+#json = [{"name": "\u0422\u0435\u0441\u0442", "tags": {"burger": 1}, "price": 1, "location": "", "id": 1, "desc": "@"}, {"name": "\u0422\u0435\u0441\u0442", "tags": {"burger": 1}, "price": 1, "location": "", "id": 2, "desc": "@"}, {"name": "\u0422\u0435\u0441\u0442", "tags": {"burger": 1}, "price": 1, "location": "", "id": 3, "desc": "@"}, {"name": "Pizaa", "tags": {"pasta": 1}, "price": 1, "location": {}, "id": 4, "desc": ""}, {"name": "a", "tags": {"pasta": 1, "fri": 1}, "price": 2, "location": {}, "id": 5, "desc": ""}, {"name": "Pizaa", "tags": {"fri": 2}, "price": 1, "location": {}, "id": 6, "desc": ""}, {"name": "a", "tags": {"burger": 1, "fri": 1}, "price": 2, "location": {}, "id": 7, "desc": ""}]
+
 #getTopPlaces(json)
