@@ -20,14 +20,16 @@ def addPlace(place):
     json_data = json_data.replace('u"','"')
     places = json.loads(json_data)
     places["places"].append(place)
+    print(str(places).encode("ascii"))
     r.set("places",str(places).replace("'",'"'))
     
 
-# place = {"id":1,
-#         "name":"test",
-#         "price":1,
-#         "location":"",
-#         "desc":"@",
-#         "tags":[{"burger":1}]
-#         }
-
+place = {"id":2,
+        "name":"test",
+        "price":1,
+        "location":"",
+        "desc":"@",
+        "tags":[{"burger":1}]
+        }
+createPlaces()
+addPlace(place)
