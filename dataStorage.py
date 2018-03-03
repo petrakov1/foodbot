@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*- 
+
 import os
 import redis
 import json
@@ -8,28 +11,49 @@ url = 'redis://h:pefdc000ffe64e9ee1d5b61c52070f9a98839b0413371070bf7ff0fab173c72
 r = redis.StrictRedis.from_url(url)
 
 def createPlaces():
-    places = {"places":[]}
-    r.set("places",places)
+    places = []
+    r.set("places",json.dumps(places))
 
 def getAllPlaces():
     print(r.get("places"))
-    
 
-def addPlace(place):
-    json_data = str(r.get("places"))
-    json_data = json_data.replace('u"','"')
+def getPlace(id):
+    json_data = r.get("places")
     places = json.loads(json_data)
-    places["places"].append(place)
-    print(str(places).encode("ascii"))
-    r.set("places",str(places).replace("'",'"'))
-    
+    for place in places:
+        if (place['id']==id):
+            return place
 
-place = {"id":2,
-        "name":"test",
-        "price":1,
-        "location":"",
-        "desc":"@",
-        "tags":[{"burger":1}]
+def addPlace(id,name,price,location,desc,tags):
+    place = {"id":id,
+        "name":name,
+        "price":price,
+        "location":location,
+        "desc":desc,
+        "tags":tags
         }
-createPlaces()
-addPlace(place)
+    json_data = r.get("places")
+    places = json.loads(json_data)
+    places.append(place)
+    r.set("places",json.dumps(places))
+
+def createUser(user_id):
+    user = {"tags":{},"price":1,"places":0}
+    r.set("user_"+str(user_id),json.dumps(user))
+
+def changeUser(user_id,choosedTags,priceDelta):
+    user = r.get("user_"+str(user_id))
+    user = json.loads(user)
+    user["price"] += priceDelta
+    userTags = user["tags"]
+    for choosedTag in choosedTags:
+        if choosedTag not in userTags:
+            userTags[choosedTag] =  choosedTags[choosedTag]
+        else:
+            userTags[choosedTag] += choosedTags[choosedTag]
+
+    user["tags"] = userTags    
+    r.set("user_"+str(user_id),json.dumps(user))
+
+def getUser(user_id):
+    return r.get("user_"+str(user_id))
