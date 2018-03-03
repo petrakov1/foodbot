@@ -11,7 +11,7 @@ def createPlaces():
     r.set("places",places)
 
 def getAllPlaces():
-    print(r.get(places))
+    print(r.get("places"))
 
 createPlaces()
 getAllPlaces()
