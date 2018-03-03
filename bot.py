@@ -67,8 +67,8 @@ def main():
     updater.idle()
 
 
-# if __name__ == '__main__':
-#     main()
+if __name__ == '__main__':
+    main()
 
 updater.start_webhook(listen="0.0.0.0",
                       port=PORT,
