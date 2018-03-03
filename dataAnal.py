@@ -12,13 +12,13 @@ def valueByTag(place,arrPerson):
 
 def sortByValue(arr):
     max = 0
-    for i in range(len(arr)/2):
-        for j in range(len(arr)/2 - 1, i, -1):
+    for i in range(len(arr)):
+        for j in range(len(arr)-1, i, -1):
             if arr[j][1] > arr[j - 1][1]:
                 test1 = arr[j][0]
-                test2 = arr[j][0]
+                test2 = arr[j][1]
                 arr[j][0] = arr[j - 1][0]
-                arr[j][0] = arr[j - 1][0]
+                arr[j][1] = arr[j - 1][1]
                 arr[j - 1][0] = test1
                 arr[j - 1][1] = test2
 
@@ -39,20 +39,21 @@ def sortByValue(arr):
 arrPerson = {"burger":1,"pizza":2,"c":3,"d":4}
 personPrise = 2
 
-def getTopPlaces (json):
+def getTopPlaces ():
 
-    # json = {"places":[{"name": "test1", "tags": {"burger": 1, "pizza": 2}, "price": 1, "location": "", "id": 1, "desc": "@"},
-    #                  {"name": "test2", "tags": {"pizza": 1}, "price": 2, "location": "", "id": 2, "desc": "@"}]}
+    json = [{"name": "test1", "tags": {"burger": 1, "pizza": 2}, "price": 1, "location": "", "id": 1, "desc": "@"},
+                      {"name": "test2", "tags": {"pizza": 1}, "price": 2, "location": "", "id": 2, "desc": "@"},
+            {"name": "v", "tags": {"pasta": 2, "burger": 1, "pizza": 1}, "price": 3, "location": {}, "id": 6, "desc": ""}]
 
     arrPlaces = []
-    for place in json["places"]:
+    for place in json:
         arrPlaces.append([place["id"], valueByTag(place["tags"], arrPerson)])
 
     print (arrPlaces)
     sortByValue(arrPlaces)
     print ("After sort")
     print (arrPlaces)
-    for i in range(1, arrPlaces.__len__() / 2 + 1):
+    for i in range(1, arrPlaces.__len__()):
         arrPlaces[i][1] = arrPlaces[i][1] / float(arrPlaces[0][1])
     arrPlaces[0][1] = 1
     print ("After 0-1")
@@ -81,20 +82,20 @@ def getTopPlaces (json):
     # arrValueOfPrices = [[1,2,3],[2,1,3]]
     arrValueOfPrices = []
 
-    for place in json["places"]:
+    for place in json:
         arrValueOfPrices.append([place["id"], place["price"]])
     print (arrValueOfPrices)
 
-    for i in range(0, arrValueOfPrices.__len__() / 2 + 1):
+    for i in range(0, arrValueOfPrices.__len__()):
         arrValueOfPrices[i][1] = (arrValueOfPrices[i][1] - personPrise) / 2.0
 
     sortByValue(arrValueOfPrices)
     print (arrValueOfPrices)
 
-    for i in range(0, arrPlaces.__len__() / 2 + 1):
+    for i in range(0, arrPlaces.__len__()):
         arrPlaces[i][1] += arrValueOfPrices[i][1]
     print ("Itog")
     print (arrPlaces)
 
-
+getTopPlaces()
 
