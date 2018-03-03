@@ -3,7 +3,7 @@
 
 import os
 import telegram
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters,CallbackQueryHandler
 import logging
 import redis
 import json
