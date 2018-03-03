@@ -18,7 +18,8 @@ logger = logging.getLogger(__name__)
 
 
 def allPlaces(bot, update):
-
+    update.message.reply_text('Places')
+    
 
 
 
