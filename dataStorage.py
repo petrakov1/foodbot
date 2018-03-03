@@ -13,6 +13,8 @@ r = redis.StrictRedis.from_url(url)
 def createPlaces():
     places = []
     r.set("places",json.dumps(places))
+    r.set("last_id",0)
+    
 
 def getAllPlaces():
     return r.get("places")
@@ -34,11 +36,14 @@ def editPlace(id):
             # print(place)
     r.set("places",json.dumps(places))
 
-def addPlace(id,name,price,location,desc,tags):
+def addPlace(name,price,location,address,desc,tags):
+    id = int(r.get("last_id"))+1
+    r.set("last_id",id)
     place = {"id":id,
         "name":name,
         "price":price,
         "location":location,
+        "address": address,
         "desc":desc,
         "tags":tags
         }
