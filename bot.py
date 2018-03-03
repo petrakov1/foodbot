@@ -90,7 +90,7 @@ def main():
     dp.add_handler(CommandHandler("place", showPlace))
 
 #     # on noncommand i.e message - echo the message on Telegram
-    dp.add_handler(MessageHandler(Filters.text, echo))
+    # dp.add_handler(MessageHandler(Filters.text, echo))
     dp.add_handler(CallbackQueryHandler(textHandlers))
 
 
