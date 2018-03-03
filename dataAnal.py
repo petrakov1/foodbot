@@ -41,10 +41,6 @@ personPrise = 2
 
 def getTopPlaces (json):
 
-    #json = [{"name": "test1", "tags": {"burger": 1, "pizza": 2}, "price": 1, "location": "", "id": 1, "desc": "@"},
-    #                  {"name": "test2", "tags": {"pizza": 1}, "price": 2, "location": "", "id": 2, "desc": "@"},
-    #        {"name": "v", "tags": {"pasta": 2, "burger": 1, "pizza": 1}, "price": 3, "location": {}, "id": 6, "desc": ""}]
-
     arrPlaces = []
     for place in json:
         arrPlaces.append([place["id"], valueByTag(place["tags"], arrPerson)])
@@ -90,12 +86,21 @@ def getTopPlaces (json):
         arrValueOfPrices[i][1] = (arrValueOfPrices[i][1] - personPrise) / 2.0
 
     sortByValue(arrValueOfPrices)
+    print ("Before connection")
     print (arrValueOfPrices)
-
-    for i in range(0, arrPlaces.__len__()):
-        arrPlaces[i][1] += arrValueOfPrices[i][1]
-    print ("Itog")
     print (arrPlaces)
 
-#getTopPlaces()
+    for i in range(0, arrPlaces.__len__()):
+        for j in range(0, arrValueOfPrices.__len__()):
+            if (arrPlaces[i][0]==arrValueOfPrices[j][0]):
+                arrPlaces[i][1] += arrValueOfPrices[j][1]
 
+    print ("Itog")
+    sortByValue(arrPlaces)
+    print (arrPlaces)
+
+
+#json = [{"name": "test1", "tags": {"burger": 1, "pizza": 2}, "price": 1, "location": "", "id": 1, "desc": "@"},
+#                      {"name": "test2", "tags": {"pizza": 1}, "price": 2, "location": "", "id": 2, "desc": "@"},
+#            {"name": "v", "tags": {"pasta": 2, "burger": 1, "pizza": 1}, "price": 3, "location": {}, "id": 6, "desc": ""}]
+#getTopPlaces(json)
