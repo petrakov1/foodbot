@@ -1,7 +1,8 @@
 import os
 import redis
-import _json
+import json
 import requests
+import ast
 
 url = 'redis://h:pefdc000ffe64e9ee1d5b61c52070f9a98839b0413371070bf7ff0fab173c7231@ec2-34-252-202-201.eu-west-1.compute.amazonaws.com:43329'
 r = redis.StrictRedis.from_url(url)
@@ -13,5 +14,24 @@ def createPlaces():
 def getAllPlaces():
     print(r.get("places"))
 
-createPlaces()
+def addPlace(place):
+    s = r.get("places")
+    s = ast.literal_eval(s)
+    print(s)
+    places = json.loads(s)
+    print(places["places"])
+    places[0].append(place)
+    r.set("places",places)
+    
+
+place = {"id":1,
+        "name":"test",
+        "price":1,
+        "location":"",
+        "desc":"@",
+        "tags":[{"burger":1}]
+        }
+addPlace(place)
+
+
 getAllPlaces()
