@@ -39,11 +39,11 @@ def sortByValue(arr):
 arrPerson = {"burger":1,"pizza":2,"c":3,"d":4}
 personPrise = 2
 
-def getTopPlaces ():
+def getTopPlaces (json):
 
-    json = [{"name": "test1", "tags": {"burger": 1, "pizza": 2}, "price": 1, "location": "", "id": 1, "desc": "@"},
-                      {"name": "test2", "tags": {"pizza": 1}, "price": 2, "location": "", "id": 2, "desc": "@"},
-            {"name": "v", "tags": {"pasta": 2, "burger": 1, "pizza": 1}, "price": 3, "location": {}, "id": 6, "desc": ""}]
+    #json = [{"name": "test1", "tags": {"burger": 1, "pizza": 2}, "price": 1, "location": "", "id": 1, "desc": "@"},
+    #                  {"name": "test2", "tags": {"pizza": 1}, "price": 2, "location": "", "id": 2, "desc": "@"},
+    #        {"name": "v", "tags": {"pasta": 2, "burger": 1, "pizza": 1}, "price": 3, "location": {}, "id": 6, "desc": ""}]
 
     arrPlaces = []
     for place in json:
@@ -97,5 +97,5 @@ def getTopPlaces ():
     print ("Itog")
     print (arrPlaces)
 
-getTopPlaces()
+#getTopPlaces()
 
