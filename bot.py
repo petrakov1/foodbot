@@ -5,6 +5,7 @@ import logging
 import redis
 import json
 import dataStorage
+import dataAnal
 
 TOKEN = "515081396:AAHw-n2i0iigt9iAPVhVgL5-p9ibiD3wd-0"
 
