@@ -32,9 +32,14 @@ def start(bot, update):
     update.message.reply_text('Welcome')
 
 def showPlace(bot,update):
-    place = dataStorage.getPlace(5)
-    bot.send_photo(chat_id=update.message.chat_id, photo='http://phink.team/hotline/images/product/1/HQ/кроссовки-sf-air-force-1-mid-OnTrJDlm.png')
-    bot.send_message(chat_id=update.message.chat_id,text='*'+place['name']+'*\n'+place['desc'],parse_mode=telegram.ParseMode.MARKDOWN)
+    json_data = json.loads(dataStorage.getAllPlaces())
+    user = json.loads(dataStorage.getUser(1))
+    places = dataAnal.getTopPlaces(json_data,user)
+    # print(places)
+    for place in places:
+        p = dataStorage.getPlace(place[0]))
+        # bot.send_photo(chat_id=update.message.chat_id, photo='http://phink.team/hotline/images/product/1/HQ/кроссовки-sf-air-force-1-mid-OnTrJDlm.png')
+        bot.send_message(chat_id=update.message.chat_id,text='*'+p['name']+'*\n'+p['desc'],parse_mode=telegram.ParseMode.MARKDOWN)
     # update.message.reply_text(text='*Fenster Coffee*\ntest',parse_mode=telegram.ParseMode.MARKDOWN)
    
 
