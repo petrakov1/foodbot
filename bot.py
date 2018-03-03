@@ -32,7 +32,8 @@ def start(bot, update):
     update.message.reply_text('Welcome')
 
 def showPlace(bot,update):
-    update.message.reply_text('<b>Fenster Coffee</b>\ntest')
+    bot.send_message(chat_id=update.message.chat_id,text='*Fenster Coffee*\ntest',parse_mode=telegram.ParseMode.MARKDOWN)
+    # update.message.reply_text(text='*Fenster Coffee*\ntest',parse_mode=telegram.ParseMode.MARKDOWN)
    
 
 def help(bot, update):
