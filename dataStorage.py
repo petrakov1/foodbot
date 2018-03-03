@@ -13,25 +13,21 @@ def createPlaces():
 
 def getAllPlaces():
     print(r.get("places"))
-
-def addPlace(place):
-    s = r.get("places")
-    s = ast.literal_eval(s)
-    print(s)
-    places = json.loads(s)
-    print(places["places"])
-    places[0].append(place)
-    r.set("places",places)
     
 
-place = {"id":1,
-        "name":"test",
-        "price":1,
-        "location":"",
-        "desc":"@",
-        "tags":[{"burger":1}]
-        }
-addPlace(place)
+def addPlace(place):
+    json_data = str(r.get("places"))
+    json_data = json_data.replace('u"','"')
+    places = json.loads(json_data)
+    places["places"].append(place)
+    r.set("places",str(places).replace("'",'"'))
+    
 
+# place = {"id":1,
+#         "name":"test",
+#         "price":1,
+#         "location":"",
+#         "desc":"@",
+#         "tags":[{"burger":1}]
+#         }
 
-getAllPlaces()
