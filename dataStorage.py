@@ -15,7 +15,7 @@ def createPlaces():
     r.set("places",json.dumps(places))
 
 def getAllPlaces():
-    print(r.get("places"))
+    return r.get("places")
 
 def getPlace(id):
     json_data = r.get("places")
@@ -23,6 +23,16 @@ def getPlace(id):
     for place in places:
         if (place['id']==id):
             return place
+def editPlace(id):
+    json_data = r.get("places")
+    places = json.loads(json_data)
+    for i in range(0,len(places)):
+        print(places[i])
+        if places[i]['id'] == id:
+            places[i]['id'] = 6
+            break
+            # print(place)
+    r.set("places",json.dumps(places))
 
 def addPlace(id,name,price,location,desc,tags):
     place = {"id":id,
