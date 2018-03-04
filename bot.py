@@ -49,7 +49,8 @@ def button(bot, update):
         place_id = int(list1[0])
         place = dataStorage.getPlace(place_id)
         dataStorage.changeUser(query.message.chat_id,place['tags'],0)
-        bot.send_message(chat_id=query.message.chat_id,text="Выбор учтен" + str(query.message.chat_id))
+        bot.edit_message_text(chat_id=update.callback_query.message.chat_id,
+                    message_id=update.callback_query.message.message_id,text="Выбор учтен 👌")
         
     elif query.data.find("location") != -1:
         array = str.replace(str(query.data),"location?","")
@@ -69,6 +70,18 @@ def start(bot, update):
     bot.send_message(chat_id=update.message.chat_id, 
                     text="Меню", 
                     reply_markup=reply_markup)
+    places = dataStorage.getNPlaces(5)
+    # print(places)
+    for place in places:
+        p = place
+        button_list = [
+        telegram.InlineKeyboardButton("❤️", callback_data="like?"+str(p['id'])),
+        telegram.InlineKeyboardButton("Местоположение", callback_data="location?"+str(p['id']))]
+        reply_markup = telegram.InlineKeyboardMarkup(build_menu(button_list, n_cols=1))
+        # bot.send_photo(chat_id=update.message.chat_id, photo='http://phink.team/hotline/images/product/1/HQ/кроссовки-sf-air-force-1-mid-OnTrJDlm.png')
+        bot.send_message(chat_id=update.message.chat_id,text='*'+p['name']+'*\n'+p['desc']+'\n \n'+p['address'],parse_mode=telegram.ParseMode.MARKDOWN,reply_markup=reply_markup)
+
+
 def nearPlaces(bot,update):
     print("in")
     json_data = json.loads(dataStorage.getAllPlaces())
