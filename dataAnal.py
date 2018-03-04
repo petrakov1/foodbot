@@ -43,7 +43,7 @@ def sortByValue(arr):
 #arrPerson = {"burger":1,"pizza":2,"c":3,"d":4}
 #personPrise = 2
 
-def getTopPlaces (json_Plase, json_Person):
+def getTopPlaces (json_Plase, json_Person,clientPoint):
 
     arrPerson = json_Person["tags"]
     personPrise = json_Person["price"]
@@ -57,10 +57,8 @@ def getTopPlaces (json_Plase, json_Person):
     #    arrPlaces[place["id"]].apend(distance)
 
     for place in json_Plase:
-        print (place["location"])
-        print ("Test")
-        print (distance_((place["location"]["lat"],place["location"]["lon"]),clientPoint))
-        arrPlaces.append([place["id"], valueByTag(place["tags"],arrPerson), distance_((place["location"]["lat"],place["location"]["lon"]),clientPoint)])
+        #print (distance_((place["location"]["lat"],place["location"]["lon"]),clientPoint))
+        arrPlaces.append([place["id"], valueByTag(place["tags"],arrPerson),0])
 
     #print (arrPlaces)
     sortByValue(arrPlaces)
@@ -116,9 +114,15 @@ def getTopPlaces (json_Plase, json_Person):
 
     #print ("Itog")
     sortByValue(arrPlaces)
+    for place in json_Plase:
+        arrPlaces[place["id"]-1][2] = distance_([place["location"]["lat"],place["location"]["lon"]],clientPoint)
+
+    while arrPlaces.__len__()>5:
+        arrPlaces.pop()
+
     #print (arrPlaces)
 
-
+    #print (arrPlaces)
     return (arrPlaces)
 
 def distance_(point1, point2):
@@ -135,8 +139,16 @@ def distance_(point1, point2):
 #                      {"name": "test2", "tags": {"pizza": 1}, "price": 2, "location": "", "id": 2, "desc": "@"},
 #            {"name": "v", "tags": {"pasta": 2, "burger": 1, "pizza": 1}, "price": 3, "location": {}, "id": 6, "desc": ""}]
 
-jsonPlaces = [{"name": "\u0422\u0435\u0441\u0442", "tags": {"burger": 1}, "price": 1, "location": {"lat": 30.352859,"lon":59.9318357}, "id": 1, "desc": "@"}, {"name": "\u0422\u0435\u0441\u0442", "tags": {"burger": 1}, "price": 1, "location": "", "id": 2, "desc": "@"}, {"name": "\u0422\u0435\u0441\u0442", "tags": {"burger": 1}, "price": 1, "location": "", "id": 3, "desc": "@"}, {"name": "Pizaa", "tags": {"pasta": 1}, "price": 1, "location": {}, "id": 4, "desc": ""}, {"name": "a", "tags": {"pasta": 1, "fri": 1}, "price": 2, "location": {}, "id": 5, "desc": ""}, {"name": "Pizaa", "tags": {"fri": 2}, "price": 1, "location": {}, "id": 6, "desc": ""}, {"name": "a", "tags": {"burger": 1, "fri": 1}, "price": 2, "location": {}, "id": 7, "desc": ""}]
-jsonPerson = {"tags": {"burger":1,"pizza":2}, "price": 1, "places": 0}
+#jsonPlaces = [{"name": "\u0422\u0435\u0441\u0442", "tags": {"burger": 1}, "price": 1, "location": {"lat":59.9317145,"lon":30.3457811}, "id": 1, "desc": "@"},
+#              {"name": "\u0422\u0435\u0441\u0442", "tags": {"burger": 1}, "price": 1, "location": {"lat": 30.352859,"lon":59.9318357}, "id": 2, "desc": "@"},
+#              {"name": "\u0422\u0435\u0441\u0442", "tags": {"burger": 1}, "price": 1, "location": {"lat": 30.352859,"lon":59.9318357}, "id": 3, "desc": "@"},
+#              {"name": "Pizaa", "tags": {"pasta": 1}, "price": 1, "location": {"lat": 30.352859,"lon":59.9318357}, "id": 4, "desc": ""},
+#              {"name": "a", "tags": {"pasta": 1, "fri": 1}, "price": 2, "location": {"lat": 30.352859,"lon":59.9318357}, "id": 5, "desc": ""},
+#              {"name": "Pizaa", "tags": {"fri": 2}, "price": 1, "location": {"lat": 30.352859,"lon":59.9318357}, "id": 6, "desc": ""},
+#              {"name": "a", "tags": {"burger": 1, "fri": 1}, "price": 2, "location": {"lat": 30.352859,"lon":59.9318357}, "id": 7, "desc": ""}]
+#jsonPerson = {"tags": {"burger":1,"pizza":2}, "price": 1, "places": 0}
 
-clientPoint = (30.352856,59.9318351)
-getTopPlaces(jsonPlaces,jsonPerson)
+#clientPoint = (59.9368993,30.3154044)
+#getTopPlaces(jsonPlaces,jsonPerson)
+
+#print (distance_((59.9355867,30.3255839),(59.932079,30.3526411)))
