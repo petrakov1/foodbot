@@ -130,8 +130,8 @@ def nearPlaces(bot,update):
             button_list = [
             telegram.InlineKeyboardButton("🗺 Где это?", callback_data="location?"+str(p['id']))]
         reply_markup = telegram.InlineKeyboardMarkup(build_menu(button_list, n_cols=2))
-        dists = ("📏 в "+str(round(distance,2))+" км от вас").decode("utf-8")
-        caption = p['name']+' '+dict_prices[p['price']].decode("utf-8")+'\n'+p['desc']+'\n'+dists+' \n📍'.decode("utf-8")+p['address']
+        dists = "📏 в "+str(round(distance,2))+" км от вас"
+        caption = p['name']+' '+dict_prices[p['price']]+'\n'+p['desc']+'\n'+dists+' \n📍'+p['address']
         bot.send_photo(chat_id=update.message.chat_id, photo=p["img"],caption=caption,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup=reply_markup)        
             
 
