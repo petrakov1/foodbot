@@ -99,7 +99,7 @@ def button(bot, update):
         list1 = array.split(',')
         place_id = int(list1[0])
         p = dataStorage.getPlace(place_id)
-        bot.send_message(chat_id=query.message.chat_id,text=p['name']+"\n📍".decode("utf-8")+p['address'])        
+        bot.send_message(chat_id=query.message.chat_id,text=p['name']+("\n📍").decode("utf-8")+p['address'])        
         bot.send_location(chat_id=query.message.chat_id,latitude=p['location']['lon'],longitude=p['location']['lat'],text=p['name']+" "+p['address'])
     else:
         print(query.data)
