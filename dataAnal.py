@@ -37,7 +37,7 @@ def getTopPlaces (json_Plase, json_Person,clientPoint):
     arrPlaces = []
 
     for place in json_Plase:
-        distance = distance_([place["location"]["lat"], place["location"]["lon"]], clientPoint)
+        distance = distance_([place["location"]["lon"], place["location"]["lat"]], clientPoint)
         if (distance < 3):
             arrPlaces.append([place["id"], valueByTag(place["tags"], arrPerson), distance])
 
