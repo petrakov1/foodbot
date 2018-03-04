@@ -70,6 +70,7 @@ def start(bot, update):
                     text="Меню", 
                     reply_markup=reply_markup)
 def nearPlaces(bot,update):
+    print("in")
     json_data = json.loads(dataStorage.getAllPlaces())
     user = json.loads(dataStorage.getUser(update.message.chat_id))
     places = dataAnal.getTopPlaces(json_data,user,(update.message.location.latitude,update.message.location.longitude))
