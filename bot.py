@@ -90,7 +90,7 @@ def button(bot, update):
             telegram.InlineKeyboardButton("❌", callback_data="ignore?"+str(p['id'])),
             telegram.InlineKeyboardButton("❤️", callback_data="fav?"+str(p['id']))]
             reply_markup = telegram.InlineKeyboardMarkup(build_menu(button_list, n_cols=2))
-            caption = '*'+p['name']+' '+dict_prices[p['price']].decode("utf-8")+'*\n'+p['desc']+'\n \n'+"📍".decode("utf-8")+p['address']
+            caption = '*'+p['name']+' '+dict_prices[p['price']]+'*\n'+p['desc']+'\n \n'+"📍"+p['address']
             bot.send_photo(chat_id=update.callback_query.message.chat_id, photo=p["img"],caption=caption,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup=reply_markup)
 
 
@@ -99,7 +99,7 @@ def button(bot, update):
         list1 = array.split(',')
         place_id = int(list1[0])
         p = dataStorage.getPlace(place_id)
-        bot.send_message(chat_id=query.message.chat_id,text=p['name']+("\n📍").decode("utf-8")+p['address'])        
+        bot.send_message(chat_id=query.message.chat_id,text=p['name']+"\n📍"+p['address'])        
         bot.send_location(chat_id=query.message.chat_id,latitude=p['location']['lon'],longitude=p['location']['lat'],text=p['name']+" "+p['address'])
     else:
         print(query.data)
@@ -117,7 +117,7 @@ def nearPlaces(bot,update):
     json_data = json.loads(dataStorage.getAllPlaces())
     user = json.loads(dataStorage.getUser(update.message.chat_id))
     places = dataAnal.getTopPlaces(json_data,user,(update.message.location.latitude,update.message.location.longitude))
-    print(user['places'])
+    # print(user['places'])
     for place in places:
         p = dataStorage.getPlace(place[0])
         distance =place[2]
