@@ -90,7 +90,8 @@ def button(bot, update):
             telegram.InlineKeyboardButton("❌", callback_data="ignore?"+str(p['id'])),
             telegram.InlineKeyboardButton("❤️", callback_data="fav?"+str(p['id']))]
             reply_markup = telegram.InlineKeyboardMarkup(build_menu(button_list, n_cols=2))
-            bot.send_photo(chat_id=update.callback_query.message.chat_id, photo=p["img"],caption='*'+p['name']+'*\n'+p['desc']+'\n \n'+p['address'],parse_mode=telegram.ParseMode.MARKDOWN,reply_markup=reply_markup)
+            caption = ('*'+p['name']+'*\n'+p['desc']+'\n \n📍'+p['address']).encode("utf-8")
+            bot.send_photo(chat_id=update.callback_query.message.chat_id, photo=p["img"],caption=caption,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup=reply_markup)
 
 
     elif query.data.find("location") != -1:
@@ -124,13 +125,14 @@ def nearPlaces(bot,update):
             button_list = [
             telegram.InlineKeyboardButton("❌", callback_data="ignore?"+str(p['id'])),
             telegram.InlineKeyboardButton("❤️", callback_data="like?"+str(p['id'])),
-            telegram.InlineKeyboardButton("📍 Где это?", callback_data="location?"+str(p['id']))]
+            telegram.InlineKeyboardButton("🗺 Где это?", callback_data="location?"+str(p['id']))]
         else:
             button_list = [
-            telegram.InlineKeyboardButton("📍 Где это?", callback_data="location?"+str(p['id']))]
+            telegram.InlineKeyboardButton("🗺 Где это?", callback_data="location?"+str(p['id']))]
         reply_markup = telegram.InlineKeyboardMarkup(build_menu(button_list, n_cols=2))
-        dists = ("в "+str(round(distance,2))+" км от вас").decode("utf-8")
-        bot.send_photo(chat_id=update.message.chat_id, photo=p["img"],caption=p['name']+' '+dict_prices[p['price']].decode("utf-8")+'\n'+p['desc']+'\n'+dists+' \n'+p['address'],parse_mode=telegram.ParseMode.MARKDOWN,reply_markup=reply_markup)        
+        dists = ("📏 в "+str(round(distance,2))+" км от вас").decode("utf-8")
+        caption = p['name']+' '+dict_prices[p['price']].decode("utf-8")+'\n'+p['desc']+'\n'+dists+' \n📍'.decode("utf-8")+p['address']
+        bot.send_photo(chat_id=update.message.chat_id, photo=p["img"],caption=caption,parse_mode=telegram.ParseMode.MARKDOWN,reply_markup=reply_markup)        
             
 
 def showPlace(bot,update):
@@ -139,7 +141,7 @@ def showPlace(bot,update):
         p = place
         button_list = [
         telegram.InlineKeyboardButton("❤️", callback_data="like?"+str(p['id'])),
-        telegram.InlineKeyboardButton("📍 Где это?", callback_data="location?"+str(p['id']))]
+        telegram.InlineKeyboardButton("🗺 Где это?", callback_data="location?"+str(p['id']))]
         reply_markup = telegram.InlineKeyboardMarkup(build_menu(button_list, n_cols=1))
         bot.send_photo(chat_id=update.message.chat_id, photo=p["link"])
         bot.send_message(chat_id=update.message.chat_id,text='*'+p['name']+'*\n'+p['desc']+'\n \n'+p['address'],parse_mode=telegram.ParseMode.MARKDOWN,reply_markup=reply_markup)

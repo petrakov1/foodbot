@@ -11,18 +11,18 @@ import json
 # dataStorage.addPlace(7,"a",2,{},"",{"burger":1,"fri":1})
 # dataStorage.addPlace(6,"v",3,{},"",{"pasta":2,"burger":1,"pizza":1})
 
-#places = dataStorage.getNPlaces(14)
+places = dataStorage.getNPlaces(14)
     # print(places)
-#for place in places:
- #   p = place
-    #print(str(place["id"])+" "+place["img"])
+for place in places:
+    p = place
+    print(str(place["id"])+" "+place["name"])
 # dataAnal.getTopPlaces(json_data)
 # print(dataStorage.getPlace(5))
 
 # place = dataStorage.getPlace(5)
 
 # print place['name']
-dataStorage.createPlaces()
+# dataStorage.createPlaces()
 # dataStorage.editPlace(8)
 # dataStorage.addPlace("Мастер кебаб",1,{"lat": 30.346492,"lon":59.971417},"ул. Смолячкова, 16","Шаверма 🌯",{"шаверма":1,"шаурма":1})
 # dataStorage.addPlace("Суши Wok",1,{"lat": 30.3407157,"lon":59.971353},"ул. Смолячкова, 12","Суши и роллы 🍱",{"суши":1,"роллы":1,"вок":1,"лапша":1})
@@ -38,13 +38,28 @@ dataStorage.createPlaces()
 # dataStorage.addPlace("Буше",2,{"lat": 30.3454974,"lon":59.9247308},"Разъезжая ул., 13","Уютное место 🍮",{"сладкое":2, "кофе":1, "сендвичи":1, "выпечка":1})
 # dataStorage.addPlace("Punk Brew",2,{"lat": 30.344455,"lon":59.9303796},"ул. Рубинштейна, 9","Пивной бар 🍻",{"пицца":1,"бургеры":1,"бар":1,"коктейли":1,"пиво":1})
 # dataStorage.addPlace("Булочная Ф. Вольчека № 9",1,{"lat": 30.3416675,"lon":59.9702991},"ул. Смолячкова, 11","Булочная 🥐",{"сладкое":1, "пироги":1, "кофе":1, "выпечка":1})
-# dataStorage.addPlaceImage(15,"http://phink.team/images/15.jpg")
+# 
+# dataStorage.addPlaceImage(1,"http://phink.team/images/9.jpg")
+# dataStorage.addPlaceImage(2,"http://phink.team/images/2.jpg")
+# dataStorage.addPlaceImage(3,"http://phink.team/images/1.jpg")
+# dataStorage.addPlaceImage(4,"http://phink.team/images/3.jpg")
+# dataStorage.addPlaceImage(5,"http://phink.team/images/6.jpg")
+# dataStorage.addPlaceImage(6,"http://phink.team/images/4.jpeg")
+# dataStorage.addPlaceImage(7,"http://phink.team/images/7.jpg")
+# dataStorage.addPlaceImage(8,"http://phink.team/images/8.jpg")
+dataStorage.addPlaceImage(9,"http://phink.team/images/100.jpg")
+dataStorage.addPlaceImage(10,"http://phink.team/images/11.jpg")
+dataStorage.addPlaceImage(11,"http://phink.team/images/12.jpg")
+dataStorage.addPlaceImage(12,"http://phink.team/images/13.jpg")
+# dataStorage.addPlaceImage(13,"http://phink.team/images/13.jpg")
+# dataStorage.addPlaceImage(14,"http://phink.team/images/15.jpg")
+
 # dataStorage.addPlaceImage(10,"http://phink.team/images/8.jpg")
 # dataStorage.addPlaceImage(13,"http://phink.team/images/12.jpg")
 # dataStorage.addPlaceImage(12,"http://phink.team/images/12.jpg")
 # dataStorage.addPlaceImage(5,"http://phink.team/images/4.jpeg")
 # dataStorage.addPlaceImage(14,"http://phink.team/images/13.jpg")
-# # dataStorage.addPlaceImage(7,"http://phink.team/images/6.jpg")
+# dataStorage.addPlaceImage(7,"http://phink.team/images/6.jpg")
 # dataStorage.addPlaceImage(8,"http://phink.team/images/6.jpg")
 
 # # print(dataStorage.getUser(320962426))
