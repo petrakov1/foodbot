@@ -65,6 +65,13 @@ def createUser(user_id,price):
     user = {"tags":{},"price":price,"places":{}}
     r.set("user_"+str(user_id),json.dumps(user))
 
+def changeUserIgnore(user_id,place_id):
+    user = r.get("user_"+str(user_id))
+    user = json.loads(user)
+    if place_id not in user["places"]:
+        user["places"][place_id] =  0
+    r.set("user_"+str(user_id),json.dumps(user))
+    
 def changeUser(user_id,choosedTags,place_id):
     user = r.get("user_"+str(user_id))
     user = json.loads(user)

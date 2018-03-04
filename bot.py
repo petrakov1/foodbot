@@ -13,6 +13,9 @@ import dataAnal
 
 TOKEN = "515081396:AAHw-n2i0iigt9iAPVhVgL5-p9ibiD3wd-0"
 
+dict_prices = { 1: '💵', 2: '💵💵',
+    3: '💵💵💵'}
+
 # FIRST, SECOND, HELP = range(3)
 
 PORT = int(os.environ.get('PORT', '8443'))
@@ -60,8 +63,12 @@ def button(bot, update):
         bot.edit_message_caption(chat_id=update.callback_query.message.chat_id,
                     message_id=update.callback_query.message.message_id,caption="Выбор учтен 👌")
     elif query.data.find("ignore") != -1:
+        array = str.replace(str(query.data),"ignore?","")
+        list1 = array.split(',')
+        place_id = int(list1[0])
+        dataStorage.changeUserIgnore(update.callback_query.message.chat_id,place_id)
         bot.edit_message_caption(chat_id=update.callback_query.message.chat_id,
-                    message_id=update.callback_query.message.message_id,caption="Буду знать")
+                    message_id=update.callback_query.message.message_id,caption="Учту в будущем 🙈")
     elif query.data.find("setprice") != -1:
         array = str.replace(str(query.data),"setprice?","")
         list1 = array.split(',')
@@ -96,8 +103,6 @@ def button(bot, update):
     else:
         print(query.data)
 def start(bot, update):
-    # update.message.reply_text('')
-
     button_list = [
         telegram.InlineKeyboardButton("💵", callback_data="setprice?1"),
         telegram.InlineKeyboardButton("💵💵", callback_data="setprice?2"),
@@ -107,26 +112,29 @@ def start(bot, update):
 
 
 def nearPlaces(bot,update):
-    print("in")
+   
     json_data = json.loads(dataStorage.getAllPlaces())
     user = json.loads(dataStorage.getUser(update.message.chat_id))
     places = dataAnal.getTopPlaces(json_data,user,(update.message.location.latitude,update.message.location.longitude))
-    # print(places)
+    print(user['places'])
     for place in places:
         p = dataStorage.getPlace(place[0])
-        button_list = [
-        telegram.InlineKeyboardButton("❌", callback_data="ignore?"+str(p['id'])),
-        telegram.InlineKeyboardButton("❤️", callback_data="like?"+str(p['id'])),
-        telegram.InlineKeyboardButton("📍 Где это?", callback_data="location?"+str(p['id']))]
+        distance =place[2]
+        if str(place[0]) not in user['places']:
+            button_list = [
+            telegram.InlineKeyboardButton("❌", callback_data="ignore?"+str(p['id'])),
+            telegram.InlineKeyboardButton("❤️", callback_data="like?"+str(p['id'])),
+            telegram.InlineKeyboardButton("📍 Где это?", callback_data="location?"+str(p['id']))]
+        else:
+            button_list = [
+            telegram.InlineKeyboardButton("📍 Где это?", callback_data="location?"+str(p['id']))]
         reply_markup = telegram.InlineKeyboardMarkup(build_menu(button_list, n_cols=2))
-        # print(p['id']+p['img'])
-        bot.send_photo(chat_id=update.message.chat_id, photo=p["img"],caption='*'+p['name']+'*\n'+p['desc']+'\n \n'+p['address'],parse_mode=telegram.ParseMode.MARKDOWN,reply_markup=reply_markup)        
+        dists = ("в "+str(round(distance,2))+" км от вас").decode("utf-8")
+        bot.send_photo(chat_id=update.message.chat_id, photo=p["img"],caption='<b>'+str("❤️ ").decode("utf-8")+p['name']+'</b> '+dict_prices[p['price']].decode("utf-8")+'\n'+p['desc']+'\n'+dists+' \n'+p['address'],parse_mode=telegram.ParseMode.MARKDOWN,reply_markup=reply_markup)        
             
 
 def showPlace(bot,update):
-    # print(dataStorage.getAllPlaces())
     places = dataStorage.getNPlaces(5)
-    # print(places)
     for place in places:
         p = place
         button_list = [
@@ -138,16 +146,6 @@ def showPlace(bot,update):
     # update.message.reply_text(text='*Fenster Coffee*\ntest',parse_mode=telegram.ParseMode.MARKDOWN)
    
 
-def help(bot, update):
-    """Send a message when the command /help is issued."""
-    update.message.reply_text('Help!')
-
-
-def textHandlers(bot, update):
-    bot.send_message(chat_id=update.message.chat_id,text='Like')
-    update.message.reply_text(update.callback_query)
-
-
 def error(bot, update, error):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, error)
@@ -155,36 +153,16 @@ def error(bot, update, error):
 
 
 def main():
-#     # Create the EventHandler and pass it your bot's token.
     updater = Updater(TOKEN)
-
-#     # Get the dispatcher to register handlers
     dp = updater.dispatcher
 
-#     # on different commands - answer in Telegram
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("help", help))
     dp.add_handler(CommandHandler("place", showPlace))
-
-#     # on noncommand i.e message - echo the message on Telegram
-    # dp.add_handler(MessageHandler(Filters.text, echo))
     dp.add_handler(CallbackQueryHandler(button))
     dp.add_handler(MessageHandler(Filters.location,nearPlaces))
-
-
-#     # log all errors
     dp.add_error_handler(error)
 
-    # conv_handler = ConversationHandler(
-    #     entry_points=[CommandHandler('place', showPlace)],
-    #     states={
-    #         FIRST: [CallbackQueryHandler(textHandlers)]
-    #     },
-    #     fallbacks=[CommandHandler('start', start)]
-    # )
-
-
-    # updater.dispatcher.add_handler(conv_handler)
 
     updater.start_polling()
 
