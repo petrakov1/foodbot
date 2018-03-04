@@ -41,7 +41,7 @@ def getTopPlaces (json_Plase, json_Person,clientPoint):
         if (distance < 3):
             arrPlaces.append([place["id"], valueByTag(place["tags"], arrPerson), distance])
 
-    print (arrPlaces)
+    #print (arrPlaces)
     sortByValue(arrPlaces)
 
     if (arrPlaces.__len__()==0): arrPlaces.append([0,0,0])
@@ -68,7 +68,7 @@ def getTopPlaces (json_Plase, json_Person,clientPoint):
 
     while arrPlaces.__len__()>5:
         arrPlaces.pop()
-    print (arrPlaces)
+    #print (arrPlaces)
     return (arrPlaces)
 
 def distance_(point1, point2):
