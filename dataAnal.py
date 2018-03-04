@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import _json
+import math
 
 def valueByTag(place,arrPerson):
     value = 0
@@ -101,12 +102,22 @@ def getTopPlaces (json_Plase, json_Person):
     for i in range(0, arrPlaces.__len__()):
         for j in range(0, arrValueOfPrices.__len__()):
             if (arrPlaces[i][0]==arrValueOfPrices[j][0]):
-                arrPlaces[i][1] += arrValueOfPrices[j][1]
+                arrPlaces[i][1] = 2 * arrPlaces[i][1] + arrValueOfPrices[j][1]
 
     #print ("Itog")
     sortByValue(arrPlaces)
     #print (arrPlaces)
     return (arrPlaces)
+
+def distance_(point1, point2):
+    R = 6371
+    dLat = math.radians(point2[0] - point1[0])
+    dLon = math.radians(point2[1] - point1[1])
+    a = math.sin(dLat / 2) * math.sin(dLat / 2) + math.cos(math.radians(point1[0])) * math.cos(math.radians(point2[0])) * math.sin(dLon / 2) * math.sin(dLon / 2)
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+    d = R * c
+    return d
+
 
 #json = [{"name": "test1", "tags": {"burger": 1, "pizza": 2}, "price": 1, "location": "", "id": 1, "desc": "@"},
 #                      {"name": "test2", "tags": {"pizza": 1}, "price": 2, "location": "", "id": 2, "desc": "@"},
