@@ -13,7 +13,7 @@ import dataAnal
 
 TOKEN = "515081396:AAHw-n2i0iigt9iAPVhVgL5-p9ibiD3wd-0"
 
-FIRST, SECOND, HELP = range(3)
+# FIRST, SECOND, HELP = range(3)
 
 PORT = int(os.environ.get('PORT', '8443'))
 updater = Updater(TOKEN)
@@ -147,12 +147,12 @@ def main():
 
     # updater.dispatcher.add_handler(conv_handler)
 
-    # updater.start_polling()
+    updater.start_polling()
 
-    updater.start_webhook(listen="0.0.0.0",
-                        port=PORT,
-                        url_path=TOKEN)
-    updater.bot.set_webhook("https://spbfoodbot.herokuapp.com/" + TOKEN)
+    # updater.start_webhook(listen="0.0.0.0",
+                        # port=PORT,
+                        # url_path=TOKEN)
+    # updater.bot.set_webhook("https://spbfoodbot.herokuapp.com/" + TOKEN)
     updater.idle()
 
 
