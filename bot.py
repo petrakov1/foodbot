@@ -86,12 +86,10 @@ def nearPlaces(bot,update):
 
 def showPlace(bot,update):
     # print(dataStorage.getAllPlaces())
-    json_data = json.loads(dataStorage.getAllPlaces())
-    user = json.loads(dataStorage.getUser(update.message.chat_id))
-    places = dataAnal.getTopPlaces(json_data,user)
+    places = dataStorage.getNPlaces(5)
     # print(places)
     for place in places:
-        p = dataStorage.getPlace(place[0])
+        p = place
         button_list = [
         telegram.InlineKeyboardButton("❤️", callback_data="like?"+str(p['id'])),
         telegram.InlineKeyboardButton("Местоположение", callback_data="location?"+str(p['id']))]

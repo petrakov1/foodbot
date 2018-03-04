@@ -72,3 +72,11 @@ def changeUser(user_id,choosedTags,priceDelta):
 
 def getUser(user_id):
     return r.get("user_"+str(user_id))
+
+def getNPlaces(n):
+    json_data = r.get("places")
+    places = json.loads(json_data)
+    rezPlace = []
+    for i in range(0,n):
+        rezPlace.append(places[i])
+    return rezPlace
