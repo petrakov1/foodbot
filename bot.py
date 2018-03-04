@@ -61,7 +61,7 @@ def button(bot, update):
         print(query.data)
 def start(bot, update):
     update.message.reply_text('Отмечай ❤️ места которые тебе нравятся, и я буду учиться 💡')
-    # dataStorage.createUser(update.message.chat_id)
+    dataStorage.createUser(update.message.chat_id)
 
     location_keyboard = telegram.KeyboardButton(text="Найти где поесть", request_location=True)
     custom_keyboard = [[ location_keyboard ]]

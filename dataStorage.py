@@ -59,7 +59,7 @@ def createUser(user_id):
 def changeUser(user_id,choosedTags,priceDelta):
     user = r.get("user_"+str(user_id))
     user = json.loads(user)
-    # user["price"] += priceDelta
+    user["price"] += priceDelta
     userTags = user["tags"]
     for choosedTag in choosedTags:
         if choosedTag not in userTags:
