@@ -44,6 +44,8 @@ def getTopPlaces (json_Plase, json_Person,clientPoint):
     print (arrPlaces)
     sortByValue(arrPlaces)
 
+    if (arrPlaces.__len__()==0): arrPlaces.append([0,0,0])
+
     if (arrPlaces[0][1] != 0):
         for i in range(1, arrPlaces.__len__()):
             arrPlaces[i][1] = arrPlaces[i][1] / float(arrPlaces[0][1])
