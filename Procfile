@@ -1,2 +1,2 @@
 web: python3 bot.py
-data: python3 dataStorage.py
+worker: python3 bot.py
