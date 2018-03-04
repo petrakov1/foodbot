@@ -51,7 +51,9 @@ def button(bot, update):
         dataStorage.changeUser(query.message.chat_id,place['tags'],0)
         bot.edit_message_text(chat_id=update.callback_query.message.chat_id,
                     message_id=update.callback_query.message.message_id,text="Выбор учтен 👌")
-        
+    elif query.data.find("ignore") != -1:
+        bot.edit_message_text(chat_id=update.callback_query.message.chat_id,
+                    message_id=update.callback_query.message.message_id,text="Буду знать")
     elif query.data.find("location") != -1:
         array = str.replace(str(query.data),"location?","")
         list1 = array.split(',')
@@ -61,14 +63,15 @@ def button(bot, update):
     else:
         print(query.data)
 def start(bot, update):
-    update.message.reply_text('Отмечай ❤️ места которые тебе нравятся, и я буду учиться 💡')
+    # update.message.reply_text('')
     dataStorage.createUser(update.message.chat_id)
 
     location_keyboard = telegram.KeyboardButton(text="Найти где поесть", request_location=True)
     custom_keyboard = [[ location_keyboard ]]
     reply_markup = telegram.ReplyKeyboardMarkup(custom_keyboard)
+
     bot.send_message(chat_id=update.message.chat_id, 
-                    text="Меню", 
+                    text="Отмечай ❤️ места которые тебе нравятся, и я буду учиться 💡", 
                     reply_markup=reply_markup)
     places = dataStorage.getNPlaces(5)
     # print(places)
@@ -76,7 +79,7 @@ def start(bot, update):
         p = place
         button_list = [
         telegram.InlineKeyboardButton("❤️", callback_data="like?"+str(p['id'])),
-        telegram.InlineKeyboardButton("Местоположение", callback_data="location?"+str(p['id']))]
+        telegram.InlineKeyboardButton("❌", callback_data="ignore?"+str(p['id']))]
         reply_markup = telegram.InlineKeyboardMarkup(build_menu(button_list, n_cols=1))
         # bot.send_photo(chat_id=update.message.chat_id, photo='http://phink.team/hotline/images/product/1/HQ/кроссовки-sf-air-force-1-mid-OnTrJDlm.png')
         bot.send_message(chat_id=update.message.chat_id,text='*'+p['name']+'*\n'+p['desc']+'\n \n'+p['address'],parse_mode=telegram.ParseMode.MARKDOWN,reply_markup=reply_markup)
@@ -106,7 +109,7 @@ def showPlace(bot,update):
         p = place
         button_list = [
         telegram.InlineKeyboardButton("❤️", callback_data="like?"+str(p['id'])),
-        telegram.InlineKeyboardButton("Местоположение", callback_data="location?"+str(p['id']))]
+        telegram.InlineKeyboardButton("📍 Где это?", callback_data="location?"+str(p['id']))]
         reply_markup = telegram.InlineKeyboardMarkup(build_menu(button_list, n_cols=1))
         # bot.send_photo(chat_id=update.message.chat_id, photo='http://phink.team/hotline/images/product/1/HQ/кроссовки-sf-air-force-1-mid-OnTrJDlm.png')
         bot.send_message(chat_id=update.message.chat_id,text='*'+p['name']+'*\n'+p['desc']+'\n \n'+p['address'],parse_mode=telegram.ParseMode.MARKDOWN,reply_markup=reply_markup)

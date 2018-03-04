@@ -35,7 +35,16 @@ def editPlace(id):
             break
             # print(place)
     r.set("places",json.dumps(places))
-
+def addPlaceImage(id,link):
+    json_data = r.get("places")
+    places = json.loads(json_data)
+    for i in range(0,len(places)):
+        print(places[i])
+        if places[i]['id'] == id:
+            places[i]['img'] = link
+            break
+            # print(place)
+    r.set("places",json.dumps(places))
 def addPlace(name,price,location,address,desc,tags):
     id = int(r.get("last_id"))+1
     r.set("last_id",id)
