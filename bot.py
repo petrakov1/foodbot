@@ -3,7 +3,7 @@
 
 import os
 import telegram
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters,CallbackQueryHandler
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters,CallbackQueryHandler,ConversationHandler
 import logging
 import redis
 import json
@@ -11,6 +11,8 @@ import dataStorage
 import dataAnal
 
 TOKEN = "515081396:AAHw-n2i0iigt9iAPVhVgL5-p9ibiD3wd-0"
+
+FIRST, SECOND, HELP = range(3)
 
 PORT = int(os.environ.get('PORT', '8443'))
 updater = Updater(TOKEN)
@@ -91,12 +93,22 @@ def main():
 
 #     # on noncommand i.e message - echo the message on Telegram
     # dp.add_handler(MessageHandler(Filters.text, echo))
-    dp.add_handler(CallbackQueryHandler(textHandlers))
+    # dp.add_handler(CallbackQueryHandler(textHandlers))
 
 
 #     # log all errors
     dp.add_error_handler(error)
 
+    conv_handler = ConversationHandler(
+        entry_points=[CommandHandler('place', showPlace)],
+        states={
+            FIRST: [CallbackQueryHandler(textHandlers)]
+        },
+        fallbacks=[CommandHandler('start', start)]
+    )
+
+
+    updater.dispatcher.add_handler(conv_handler)
 
     updater.start_webhook(listen="0.0.0.0",
                         port=PORT,
