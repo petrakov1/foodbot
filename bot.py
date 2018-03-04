@@ -5,6 +5,7 @@ import os
 import telegram
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters,CallbackQueryHandler,ConversationHandler
 import logging
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 import redis
 import json
 import dataStorage
@@ -40,16 +41,29 @@ def build_menu(buttons,
     return menu
 
 
+def button(bot, update):
+    query = update.callback_query
+    if query.data.find("like") != -1:
+        array = str.replace(str(query.data),"like?","")
+        list1 = array.split(',')
+        place_id = int(list1[0])
+        place = dataStorage.getPlace(place_id)
+        dataStorage.changeUser(query.message.chat_id,place['tags'],0)
+        bot.send_message(chat_id=query.message.chat_id,text="Выбор учтен" + str(query.message.chat_id))
+        
+    elif query.data.find("location") != -1:
+        array = str.replace(str(query.data),"location?","")
+        list1 = array.split(',')
+        place_id = int(list1[0])
+        p = dataStorage.getPlace(place_id)
+        bot.send_location(chat_id=query.message.chat_id,latitude=p['location']['lon'],longitude=p['location']['lat'])
 
-# Define a few command handlers. These usually take the two arguments bot and
-# update. Error handlers also receive the raised TelegramError object in error.
 def start(bot, update):
-    """Send a message when the command /start is issued."""
     update.message.reply_text('Оцените места, что бы мы вас лучше узнали')
     dataStorage.createUser(update.message.chat_id)
 
 def showPlace(bot,update):
-    print(dataStorage.getAllPlaces())
+    # print(dataStorage.getAllPlaces())
     json_data = json.loads(dataStorage.getAllPlaces())
     user = json.loads(dataStorage.getUser(1))
     places = dataAnal.getTopPlaces(json_data,user)
@@ -57,8 +71,8 @@ def showPlace(bot,update):
     for place in places:
         p = dataStorage.getPlace(place[0])
         button_list = [
-        telegram.InlineKeyboardButton("❤️", callback_data="like?"),
-        telegram.InlineKeyboardButton("Местоположение", callback_data="location?")]
+        telegram.InlineKeyboardButton("❤️", callback_data="like?"+str(p['id'])),
+        telegram.InlineKeyboardButton("Местоположение", callback_data="location?"+str(p['id']))]
         reply_markup = telegram.InlineKeyboardMarkup(build_menu(button_list, n_cols=1))
         # bot.send_photo(chat_id=update.message.chat_id, photo='http://phink.team/hotline/images/product/1/HQ/кроссовки-sf-air-force-1-mid-OnTrJDlm.png')
         bot.send_message(chat_id=update.message.chat_id,text='*'+p['name']+'*\n'+p['desc']+'\n \n'+p['address'],parse_mode=telegram.ParseMode.MARKDOWN,reply_markup=reply_markup)
@@ -71,12 +85,14 @@ def help(bot, update):
 
 
 def textHandlers(bot, update):
+    bot.send_message(chat_id=update.message.chat_id,text='Like')
     update.message.reply_text(update.callback_query)
 
 
 def error(bot, update, error):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, error)
+
 
 
 def main():
@@ -93,27 +109,30 @@ def main():
 
 #     # on noncommand i.e message - echo the message on Telegram
     # dp.add_handler(MessageHandler(Filters.text, echo))
-    # dp.add_handler(CallbackQueryHandler(textHandlers))
+    dp.add_handler(CallbackQueryHandler(button))
 
 
 #     # log all errors
     dp.add_error_handler(error)
 
-    conv_handler = ConversationHandler(
-        entry_points=[CommandHandler('place', showPlace)],
-        states={
-            FIRST: [CallbackQueryHandler(textHandlers)]
-        },
-        fallbacks=[CommandHandler('start', start)]
-    )
+    # conv_handler = ConversationHandler(
+    #     entry_points=[CommandHandler('place', showPlace)],
+    #     states={
+    #         FIRST: [CallbackQueryHandler(textHandlers)]
+    #     },
+    #     fallbacks=[CommandHandler('start', start)]
+    # )
 
 
-    updater.dispatcher.add_handler(conv_handler)
+    # updater.dispatcher.add_handler(conv_handler)
 
-    updater.start_webhook(listen="0.0.0.0",
-                        port=PORT,
-                        url_path=TOKEN)
-    updater.bot.set_webhook("https://spbfoodbot.herokuapp.com/" + TOKEN)
+    updater.start_polling()
+
+#  updater.idle()
+    # updater.start_webhook(listen="0.0.0.0",
+    #                     port=PORT,
+    #                     url_path=TOKEN)
+    # updater.bot.set_webhook("https://spbfoodbot.herokuapp.com/" + TOKEN)
     updater.idle()
 
 
