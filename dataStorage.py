@@ -61,21 +61,23 @@ def addPlace(name,price,location,address,desc,tags):
     places.append(place)
     r.set("places",json.dumps(places))
 
-def createUser(user_id):
-    user = {"tags":{},"price":1,"places":0}
+def createUser(user_id,price):
+    user = {"tags":{},"price":price,"places":{}}
     r.set("user_"+str(user_id),json.dumps(user))
 
-def changeUser(user_id,choosedTags,priceDelta):
+def changeUser(user_id,choosedTags,place_id):
     user = r.get("user_"+str(user_id))
     user = json.loads(user)
-    user["price"] += priceDelta
     userTags = user["tags"]
     for choosedTag in choosedTags:
         if choosedTag not in userTags:
             userTags[choosedTag] =  choosedTags[choosedTag]
         else:
             userTags[choosedTag] += choosedTags[choosedTag]
-
+    
+    if place_id not in user["places"]:
+        user["places"][place_id] =  1
+    
     user["tags"] = userTags    
     r.set("user_"+str(user_id),json.dumps(user))
 
