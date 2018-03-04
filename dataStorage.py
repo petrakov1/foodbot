@@ -7,7 +7,7 @@ import json
 import requests
 import ast
 
-url = 'redis://h:pefdc000ffe64e9ee1d5b61c52070f9a98839b0413371070bf7ff0fab173c7231@ec2-34-252-202-201.eu-west-1.compute.amazonaws.com:43329'
+url = 'redis://h:p1d9ba703af8034ed13a18125dc4a79f41840465fe1fb8a4e66eb5d801f0866cc@ec2-52-212-239-249.eu-west-1.compute.amazonaws.com:13169'
 r = redis.StrictRedis.from_url(url)
 
 def createPlaces():
@@ -71,7 +71,7 @@ def changeUserIgnore(user_id,place_id):
     if place_id not in user["places"]:
         user["places"][place_id] =  0
     r.set("user_"+str(user_id),json.dumps(user))
-    
+
 def changeUser(user_id,choosedTags,place_id):
     user = r.get("user_"+str(user_id))
     user = json.loads(user)
