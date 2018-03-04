@@ -147,13 +147,12 @@ def main():
 
     # updater.dispatcher.add_handler(conv_handler)
 
-    updater.start_polling()
+    # updater.start_polling()
 
-#  updater.idle()
-    # updater.start_webhook(listen="0.0.0.0",
-    #                     port=PORT,
-    #                     url_path=TOKEN)
-    # updater.bot.set_webhook("https://spbfoodbot.herokuapp.com/" + TOKEN)
+    updater.start_webhook(listen="0.0.0.0",
+                        port=PORT,
+                        url_path=TOKEN)
+    updater.bot.set_webhook("https://spbfoodbot.herokuapp.com/" + TOKEN)
     updater.idle()
 
 
