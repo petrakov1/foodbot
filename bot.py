@@ -57,15 +57,37 @@ def button(bot, update):
         place_id = int(list1[0])
         p = dataStorage.getPlace(place_id)
         bot.send_location(chat_id=query.message.chat_id,latitude=p['location']['lon'],longitude=p['location']['lat'])
-
+    else:
+        print(query.data)
 def start(bot, update):
-    update.message.reply_text('Оцените места, что бы мы вас лучше узнали')
-    dataStorage.createUser(update.message.chat_id)
+    update.message.reply_text('Отмечай ❤️ места которые тебе нравятся, и я буду учиться 💡')
+    # dataStorage.createUser(update.message.chat_id)
+
+    location_keyboard = telegram.KeyboardButton(text="Найти где поесть", request_location=True)
+    custom_keyboard = [[ location_keyboard ]]
+    reply_markup = telegram.ReplyKeyboardMarkup(custom_keyboard)
+    bot.send_message(chat_id=update.message.chat_id, 
+                    text="Меню", 
+                    reply_markup=reply_markup)
+def nearPlaces(bot,update):
+    json_data = json.loads(dataStorage.getAllPlaces())
+    user = json.loads(dataStorage.getUser(update.message.chat_id))
+    places = dataAnal.getTopPlaces(json_data,user,(update.message.location.latitude,update.message.location.longitude))
+    # print(places)
+    for place in places:
+        p = dataStorage.getPlace(place[0])
+        button_list = [
+        telegram.InlineKeyboardButton("❤️", callback_data="like?"+str(p['id'])),
+        telegram.InlineKeyboardButton("Местоположение", callback_data="location?"+str(p['id']))]
+        reply_markup = telegram.InlineKeyboardMarkup(build_menu(button_list, n_cols=1))
+        # bot.send_photo(chat_id=update.message.chat_id, photo='http://phink.team/hotline/images/product/1/HQ/кроссовки-sf-air-force-1-mid-OnTrJDlm.png')
+        bot.send_message(chat_id=update.message.chat_id,text='*'+p['name']+'*\n'+p['desc']+'\n \n'+p['address'],parse_mode=telegram.ParseMode.MARKDOWN,reply_markup=reply_markup)
+    
 
 def showPlace(bot,update):
     # print(dataStorage.getAllPlaces())
     json_data = json.loads(dataStorage.getAllPlaces())
-    user = json.loads(dataStorage.getUser(1))
+    user = json.loads(dataStorage.getUser(update.message.chat_id))
     places = dataAnal.getTopPlaces(json_data,user)
     # print(places)
     for place in places:
@@ -110,6 +132,7 @@ def main():
 #     # on noncommand i.e message - echo the message on Telegram
     # dp.add_handler(MessageHandler(Filters.text, echo))
     dp.add_handler(CallbackQueryHandler(button))
+    dp.add_handler(MessageHandler(Filters.location,nearPlaces))
 
 
 #     # log all errors
