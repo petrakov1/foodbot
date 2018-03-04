@@ -91,3 +91,5 @@ def distance_(point1, point2):
 
 #clientPoint = (59.9368993,30.3154044)
 #getTopPlaces(jsonPlaces,jsonPerson,clientPoint)
+
+
